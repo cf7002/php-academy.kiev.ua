@@ -46,8 +46,9 @@ if (!empty($_POST['comment'])) {
             if (checkStopWords($comment, $code_page)) {
                 $arr_messages[] = 'Некорректный комментарий.';
             } else {
-                $data = serialize('[' . date('Y-m-d H:i:s') . ']' . $br .
-                        htmlspecialchars($comment, ENT_COMPAT | ENT_HTML5, $code_page)) . PHP_EOL;
+                $comment = strip_tags($comment, '<b>');
+                $comment = str_replace(PHP_EOL, '<br>', $comment);
+                $data = serialize('[' . date('Y-m-d H:i:s') . ']' . $br . $comment) . PHP_EOL;
                 $arr_messages[] = addComment($data, USER_COMMENTS_FILE);
             }
         }
